@@ -1,9 +1,82 @@
+import os
 import random
-
 import pygame
 import sys
-
+from settings import *
 from level2 import load_level2
+
+
+def load_main():
+    pygame.init()
+
+    # Установка размеров окна
+    size = width, height = 1200, 800
+    screen = pygame.display.set_mode(size)
+    sound = pygame.mixer.Sound("sounds/sound_bg.mp3")
+    sound.play(-1)
+
+    # Установка заголовка окна
+    pygame.display.set_caption("Уровни")
+
+    # Установка цвета фона
+    background_color = (0, 0, 0)
+
+    # Установка цвета кнопок
+    button_color = (255, 255, 255)
+
+    # Установка размеров кнопок
+    button_width = 150
+    button_height = 50
+
+    # Установка шрифта
+    font_name = pygame.font.Font(None, 60)
+    font = pygame.font.Font(None, 36)
+
+    bg = pygame.image.load("images/background.jpg").convert()
+    bg = pygame.transform.scale(bg, (1200, 800))
+    screen.blit(bg, (0, 0))
+
+    # Создание кнопок
+    button1 = pygame.Rect(300, 600, button_width, button_height)
+    button2 = pygame.Rect(500, 600, button_width, button_height)
+    button3 = pygame.Rect(700, 600, button_width, button_height)
+
+    # Отрисовка кнопок
+    pygame.draw.ellipse(screen, button_color, button1)
+    pygame.draw.ellipse(screen, button_color, button2)
+    pygame.draw.ellipse(screen, button_color, button3)
+
+    # Отрисовка текста на кнопках
+    name = font_name.render("Платформер Time", True, (0, 0, 0))
+    text1 = font.render("Уровень 1", True, background_color)
+    text2 = font.render("Играть!", True, background_color)
+    text3 = font.render("Уровень 2", True, background_color)
+    screen.blit(name, (400, 50))
+    screen.blit(text1, (button1.x + 10, button1.y + 10))
+    screen.blit(text2, (button2.x + 30, button2.y + 10))
+    screen.blit(text3, (button3.x + 10, button3.y + 10))
+
+    pygame.display.flip()
+
+    return button1, button2, button3
+
+
+def load_levels(button1, button2, button3):
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if button1.collidepoint(event.pos):
+                    pygame.quit()
+                    load_level1()
+                elif button2.collidepoint(event.pos):
+                    pygame.quit()
+                    load_level1()
+                elif button3.collidepoint(event.pos):
+                    pygame.quit()
+                    load_level2()
 
 
 def load_level1():
@@ -68,7 +141,8 @@ def load_level1():
     lose_label = label.render("Вы проиграли!", False, (193, 196, 199))
     restart_label = label.render("Начать заново", False, (115, 132, 158))
     restart_label_rect = restart_label.get_rect(topleft=(420, 400))
-    for i in range(10):
+    blocks = 20
+    for i in range(blocks):
         start += 300
         n = random.randint(200, 400)
         platform_rects.append(pygame.Rect(start + 100, HEIGHT - n, 200, 30))
@@ -94,7 +168,7 @@ def load_level1():
         screen.blit(bg, (bg_x, 0))
         screen.blit(bg, (bg_x + 1199, 0))
         screen.blit(coin_img, (1100, 30))
-        coins_label = label.render(f"{coins_count}/5", False, (193, 196, 199))
+        coins_label = label.render(f"{coins_count}/{blocks//2}", False, (193, 196, 199))
         if coins_count < 10:
             screen.blit(coins_label, (1010, 45))
         elif coins_count < 100:
@@ -131,7 +205,10 @@ def load_level1():
                     bg_x -= 2
                 else:
                     bg_x = 0
-            if keys[pygame.K_q] or player_rect.y == 650:
+            if keys[pygame.K_q]:
+                pygame.quit()
+                os.system("python main.py")
+            if player_rect.y == 650:
                 gameplay = False
 
             # Применение гравитации
@@ -199,11 +276,9 @@ def load_level1():
                 platform_rects.append(pygame.Rect(start + 100, HEIGHT - n, 200, 30))
                 coins.append(pygame.Rect(start + 170, HEIGHT - n - 70, 200, 30))
 
-        print(gameplay)
 
         pygame.display.update()
         # Установка FPS
         clock.tick(30)
 
 
-load_level1()
