@@ -12,11 +12,11 @@ def load_main():
     # Установка размеров окна
     size = width, height = 1200, 800
     screen = pygame.display.set_mode(size)
-    sound = pygame.mixer.Sound("game_files/sounds/sound_bg.mp3")
+    sound = pygame.mixer.Sound("sounds/sound_bg.mp3")
     sound.play(-1)
 
     # Установка заголовка окна
-    pygame.display.set_caption("Уровни")
+    pygame.display.set_caption("Платформер Time")
 
     # Установка цвета фона
     background_color = (0, 0, 0)
@@ -32,7 +32,7 @@ def load_main():
     font_name = pygame.font.Font(None, 60)
     font = pygame.font.Font(None, 36)
 
-    bg = pygame.image.load("game_files/images/background.jpg").convert()
+    bg = pygame.image.load("images/background.jpg").convert()
     bg = pygame.transform.scale(bg, (1200, 800))
     screen.blit(bg, (0, 0))
 
@@ -40,6 +40,13 @@ def load_main():
     button1 = pygame.Rect(300, 600, button_width, button_height)
     button2 = pygame.Rect(500, 600, button_width, button_height)
     button3 = pygame.Rect(700, 600, button_width, button_height)
+
+    with open("base.txt", "r", encoding="utf-8") as file:
+        data = file.read().split("\n")
+        _moneys = data[0]
+        _ghosts = data[1]
+    file.close()
+
 
     # Отрисовка кнопок
     pygame.draw.ellipse(screen, button_color, button1)
@@ -51,10 +58,15 @@ def load_main():
     text1 = font.render("Уровень 1", True, background_color)
     text2 = font.render("Играть!", True, background_color)
     text3 = font.render("Уровень 2", True, background_color)
+    get_moneys = font.render(f"Собрано монет: {_moneys}", True, background_color)
+    kill_ghosts = font.render(f"Убито врагов: {_ghosts}", True, background_color)
     screen.blit(name, (400, 50))
     screen.blit(text1, (button1.x + 10, button1.y + 10))
     screen.blit(text2, (button2.x + 30, button2.y + 10))
     screen.blit(text3, (button3.x + 10, button3.y + 10))
+    pygame.draw.ellipse(screen, (255, 255, 255), (430, 235, 300, 200))
+    screen.blit(get_moneys, (450, 300))
+    screen.blit(kill_ghosts, (450, 350))
 
     pygame.display.flip()
 
@@ -81,6 +93,10 @@ def load_levels(button1, button2, button3):
 
 
 def load_level1():
+    with open("game_files/base.txt", "r", encoding="utf-8") as file:
+        data = file.read().split("\n")
+    file.close()
+
     # Инициализация Pygame
     pygame.init()
     sound_bg = pygame.mixer.Sound("game_files/sounds/sound_bg.mp3")
@@ -191,6 +207,8 @@ def load_level1():
             if player_rect.colliderect(coin):
                 coins.pop(i)
                 coins_count += 1
+                data[0] = str(int(data[0]) + 1)
+                open("game_files/base.txt", "w", encoding="utf-8").write("\n".join(data))
                 if i == len(coins):
                     print("Done!")
                     pygame.quit()
