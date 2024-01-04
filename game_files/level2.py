@@ -94,7 +94,7 @@ def load_win(screen, sound):
 def load_level2():
     pygame.init()
     screen = pygame.display.set_mode((1200, 800))
-    pygame.display.set_caption("Платформер")
+    pygame.display.set_caption("2 уровень")
     clock = pygame.time.Clock()
     icon = pygame.image.load("game_files/images/icon.png").convert_alpha()
     pygame.display.set_icon(icon)

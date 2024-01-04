@@ -18,7 +18,7 @@ def load_main():
     sound.play(-1)
 
     # Установка заголовка окна
-    pygame.display.set_caption("Уровни")
+    pygame.display.set_caption("Платформер Time")
 
     # Установка цвета фона
     background_color = (0, 0, 0)

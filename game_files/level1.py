@@ -94,7 +94,7 @@ def load_level1():
 
     # Создание окна
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Простой платформер")
+    pygame.display.set_caption("1 уровень")
 
     bg = pygame.image.load("game_files/images/background.jpg").convert()
     bg_lose = pygame.image.load("game_files/images/background_lose.jpg").convert()
