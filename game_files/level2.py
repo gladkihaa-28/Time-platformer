@@ -61,6 +61,7 @@ def load_main():
 
 
 def load_levels(button1, button2, button3):
+    pygame.init()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -87,7 +88,7 @@ def load_win(screen, sound):
     pygame.display.update()
     time.sleep(2)
     pygame.quit()
-    os.system("python main.py")
+    os.system("./main.exe.exe")
 
 
 def load_level2():
@@ -260,7 +261,7 @@ def load_level2():
                 walk = walk_right
             elif keys[pygame.K_q]:
                 pygame.quit()
-                os.system("python main.py")
+                os.system("./main.exe.exe")
 
 
             if not is_jump:
@@ -303,9 +304,12 @@ def load_level2():
                 zawarudo_count = 3
             elif quit_label_rect.collidepoint(mouse) and pygame.mouse.get_pressed()[0]:
                 pygame.quit()
-                os.system("python ../main.py")
+                os.system("./main.exe.exe")
 
-        pygame.display.update()
+        try:
+            pygame.display.update()
+        except:
+            pass
 
 
         for event in pygame.event.get():

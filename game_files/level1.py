@@ -62,6 +62,7 @@ def load_main():
 
 
 def load_levels(button1, button2, button3):
+    pygame.init()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -211,7 +212,7 @@ def load_level1():
                     bg_x = 0
             if keys[pygame.K_q]:
                 pygame.quit()
-                os.system("python main.py")
+                os.system("./main.exe")
             if player_rect.y == 650:
                 gameplay = False
 
@@ -281,12 +282,13 @@ def load_level1():
                 coins.append(pygame.Rect(start + 170, HEIGHT - n - 70, 200, 30))
             elif quit_label_rect.collidepoint(mouse) and pygame.mouse.get_pressed()[0]:
                 pygame.quit()
-                os.system("python main.py")
+                os.system("./main.exe")
 
 
-
-        pygame.display.update()
-        # Установка FPS
+        try:
+            pygame.display.update()
+        except:
+            pass
         clock.tick(30)
 
 

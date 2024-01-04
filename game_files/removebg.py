@@ -21,3 +21,4 @@ def remove_background(input_image_path, output_image_path, threshold=200):
 input_path = 'player2.png'
 output_path = 'player2.png'
 remove_background(input_path, output_path)
+
